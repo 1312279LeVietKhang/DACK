@@ -1,0 +1,9 @@
+@charset "utf-8";
+#apDiv1 {
+	position: absolute;
+	width: 230px;
+	height: 23px;
+	z-index: 1;
+	left: 13px;
+	top: 108px;
+}
