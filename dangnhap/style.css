@@ -1,0 +1,19 @@
+#body-color{ background-color:#DCDCDC; } 
+#Sign-In{
+    margin-top:150px; margin-bottom:150px; 
+    margin-right:150px; margin-left:450px; 
+    border:1px solid #a1a1a1; padding:9px 35px;
+    background:	white; width:400px;
+    border-radius:20px; box-shadow: 7px 7px 6px;
+    border-color: #FF8C00 }
+#button{ 
+   border-radius:10px; width:100px;
+   height:30px; background:#FF8C00;
+   font-weight:bold; font-size:15px 
+}
+
+div.login{
+	text-align: center;
+	border-top: 4px solid maroon;
+	/*background: transparent url(login.gif) no-repeat top center;*/
+}
