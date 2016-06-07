@@ -1,6 +1,6 @@
 var myApp = angular.module('myApp',
   ['ngRoute', 'firebase'])
-  .constant('FIREBASE_URL', 'https://appregistration5577.firebaseio.com/');
+  .constant('FIREBASE_URL', 'https://loginfirebaselvk.firebaseio.com/');
 
 // checks if there is an error with the authentication
   myApp.run(['$rootScope', '$location', function($rootScope, $location){
