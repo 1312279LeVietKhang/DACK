@@ -13,18 +13,26 @@ body {
 	background-color: #e7e7e7;
 }
 </style>
+
 </head>
 <body>
 <?php
 session_start();
 header('Content-Type: text/html; charset=UTF-8');
 echo '<title>Thoát</title>';
-if (session_destroy()) 
-    echo "Thoát thành công!";
+if (session_destroy())
+{
+    RedirectToURL("angularLogin.html");
+    exit;
+}
 else
     echo "KO thể thoát dc, có lỗi trong việc hủy session";
- 
-echo '<br><a href="index.php">Bấm vào đây để quay lại trang chủ<br></a>';
+function RedirectToURL($url)
+	{
+		header("Location: $url");
+		exit;
+    }
+
 ?>
 </body>
 </html>

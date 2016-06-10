@@ -68,9 +68,6 @@ class cURL {
 
 }
 echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">';
-
-
-
 $curl = new cURL();
 
 $url = $curl->get ('http://vietnamnet.vn/');
@@ -90,8 +87,6 @@ for($i = 0;$i < $lno ; $i++)
 	}
 		
 }
-
-
 // $j: số bài báo sẽ craw
 // m chỉnh lại cái time out t để nguyên mặc định 120s
 $count=0;
@@ -107,80 +102,29 @@ for ($i = 0; $i < $j; $i++)
 	$header ='#<h1 class="title">(.*?)</h1>#';
 	$categories = '#class="Name">(.*?)</a>#';
 	$tag = '#class="tagBoxTitle">Tags: (.*?) class="fmsidWidgetNewsBoxAnchor"#';
-	$temp = '››' ;
-	$temp1 = 'FacebookgoogleBình';
-	$head = '24h qua';
+	//Source
+	$result['Link'] = $nLink[$i];
 	//Html
 	preg_match($header,$html,$match);
 	$result['Header'] = $match[1];
 	preg_match($tag,$html,$match);
-
 	$tags = $result['Tags'] = strip_tags($match[1]);
-
-
 	preg_match($categories,$html,$match);
 	$result['Categories'] = $match[1];
-
 	//String
 	$str = strip_tags($html);
-	$fline = strpos($str,$temp);
-	$lline = strpos($str,$temp1);
-	$tline = strpos($str,$tags);
-	$post = substr($str,$fline+6,$lline);
-	if($tline<$lline - 100)
-		$post1 = explode ($temp1, $post);
-	else
-		$post1 = explode ('Tags: ', $post);
-	$post2 = explode ($head, $post1[0]);
-	if ( ! isset($post2[1])) {
-   		$post2[1] = null;
-	}
-	$post3 = explode ('FACEBOOK ỨNG DỤNG TUYỂN DỤNG RSS', $post2[1]);
-	$result['Date'] = $post3[0];
-	if ( ! isset($post3[1])) {
-   		$post3[1] = null;
-	}
-	$post4 = explode ('GMT+7',$post3[1]);
-	if ( ! isset($post4[1])) {
-   		$post4[1] = null;
-	}
-	$result['Post'] = $post4[1];
-	//lấy comment
-	$result['Comment'] = 0;
-	$cmd =__DIR__ ."\Debug\ConsoleApplication1.exe \"".$nLink[$i];
-	exec($cmd , $output,$s);
-	$path = "html.html";
-	//$html = (file("html.html"));
-	//print_r($html);
-	$fp = @fopen($path, "r");
-	  
-	// Kiểm tra file mở thành công không
-	if (!$fp) {
-	    echo 'Mở file không thành công';
-	}
-	else
-	{
-	    // Đọc file và trả về nội dung
-	    $html = fread($fp, filesize($path));
-	    preg_match('#data-key="(.*?)"#' , $html, $match);
-	    $cmt = '#'.$match[1].'">(.*?)</span>#';
-	    if (!preg_match($cmt, $html))
-	    {
-	    	$result['Comment'] = 0;
-	    }
-	    else
-	    {
-		    preg_match($cmt, $html, $comment);
-		    $result['Comment'] = $comment[1];
-		}
-
-	}
+	$gmt = explode('GMT+7',$str);
+	$date = explode($result['Header'],$gmt[1]);
+	$result['Time'] = $date[1];
+	$post = explode('Tags', $gmt[2]);
+	$result['Post'] = $post[0];
 	echo '<pre>';
 	print_r ($result);
+	
 	$servername = "mysql.hostinger.vn";
-	$username = "u194549403_h2";
+	$username = "u965438197_h";
 	$password = '123456';
-	$db = "u194549403_bf";
+	$db = "u965438197_h";
 	$mabai=crypt($result['Header']);
 	// Create connection
 	$conn = new mysqli($servername, $username, $password,$db);
@@ -188,8 +132,8 @@ for ($i = 0; $i < $j; $i++)
 	mysqli_query($conn,"SET character_set_results=utf8");
 	$t=time();
 	$t = date ("Y-m-d H:i:s", $t);
-	$sql="INSERT INTO raw_info (mabai, tuade, noidung,theloai,ngay, ngaycrawl,dohot,chon)
-VALUES ('$mabai',N'$result[Header]', N'$result[Post]', N'$result[Categories]', N'$result[Date]','$t','$result[Comment]','No')";
+	$sql="INSERT INTO raw_info (mabai, tuade, noidung,theloai,ngaycrawl,chon)
+VALUES ('$mabai',N'$result[Header]', N'$result[Post]', N'$result[Categories]','$t',,'No')";
 	if ($conn->query($sql) === TRUE) {
 	echo "<p class='congra'>Đã lưu cập nhật<p>";
 	$count++;
@@ -197,5 +141,6 @@ VALUES ('$mabai',N'$result[Header]', N'$result[Post]', N'$result[Categories]', N
 	echo "<p class='error'>Bỏ qua <p>";
 	}
 }
+
 echo "<h3>Số bài thên vào: <b>".$count."</b><h3>";
 ?>

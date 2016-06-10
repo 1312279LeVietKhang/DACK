@@ -1,22 +1,57 @@
 <!doctype html>
-<html>
+<html ng-app="myApp">
 <head>
 <meta charset="utf-8">
 <title>Post bài</title>
 <link href="style/staff.css" rel="stylesheet" type="text/css">
+<!-- CSS -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+<link href="style/index.css" rel="stylesheet" type="text/css">
+
+  <!-- Angular -->
+  <script src="js/lib/angular/angular.min.js"></script>
+  <script src="js/lib/angular/angular-route.min.js"></script>
+  <script src="js/lib/angular/angular-animate.min.js"></script>
+
+  <!-- Firebase -->
+  <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+  <script src="https://cdn.firebase.com/libs/angularfire/1.1.4/angularfire.min.js"></script>
+
+  <script src="js/app.js"></script>
+  <script src="js/controllers/registration.js"></script>
+  <script src="js/controllers/success.js"></script>
+  <script src="js/services/authentication.js"></script>
 </head>
 
 <body>
-<a href="index.php"><input type="image" src="image/home.png" /></a>
-<a href="logout.php"><input type="image" src="image/log_out.png" /></a>
-<a href="check.php"><input type="image" src="image/check.png" /></a>
+
+<div ng-show="currentUser" ng-controller="RegistrationController">
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span> 
+      </button>
+      <a class="navbar-brand" href="#">HOT FEED</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="index.php">HOME</a></li>
+        <li><a href="logout.php" ng-click="logout()">LOGOUT</a></li>
+        <li><a href="check.php">CHECK</a></li>
+      </ul>
+    </div>
+</div>
+</div>
+<div class="container-fluid bg-grey">
 <h3>Hãy viết theo cách của bạn</h3>
 
 <?php
 	session_start();
 	if(CheckLogin()==1)
 	{
-		RedirectToURL("login.php");
+		RedirectToURL("angularLogin.html");
 		exit;
 	}
 	if(CheckLogin()==2)
@@ -26,11 +61,11 @@
 	}
 	function CheckLogin()
 	{      
-		 if(empty($_SESSION['id']))
+		 if(empty($_SESSION['work']))
 		 {
 			return 1;
 		 }
-		 if(!empty($_SESSION['id']) && empty($_SESSION['mabai']))
+		 if(!empty($_SESSION['work']) && empty($_SESSION['mabai']))
 		 {
 			return 2;
 		 }
@@ -52,9 +87,9 @@
 	  }
 	}
 	$servername = "mysql.hostinger.vn";
-	$username = "u194549403_h2";
+	$username = "u965438197_h";
 	$password = '123456';
-	$db = "u194549403_bf";
+	$db = "u965438197_h";
 	// Create connection
 	$conn = new mysqli($servername, $username, $password,$db);
 	mysqli_query($conn,"SET character_set_results=utf8");
@@ -92,7 +127,7 @@
     <input type="radio" name="gender" value="Thể thao">Thể thao
     <input type="radio" name="gender" value="Xã hội">Xã hội
     <input type="radio" name="gender" value="Chính trị">Chính trị
-    <input type="radio" name="gender" value="Giáo duc">Giáo dục
+    <input type="radio" name="gender" value="Giáo dục">Giáo dục
     <input type="radio" name="gender" value="Công nghệ">Công nghệ
     <input type="radio" name="gender" value="Đời sống">Đời sống
     <input type="radio" name="gender" value="Quốc tế">Quốc tế
@@ -102,7 +137,11 @@
     <input type="radio" name="gender" value="Giải trí">Giải trí
     <input type="radio" name="gender" value="Kinh doanh">Kinh doanh
     <input type="radio" name="gender" value="Khác">Khác
-    <div class="apDiv1"><input type="image" src="image/save.png" /></div>
+    <button type="submit" class="btn btn-primary">SAVE</button>
 <form>
+</div>
 </body>
+<footer class="container-fluid text-center b1">
+  <p>buzzfeedvn.esy.es © 2015</p> 
+</footer>
 </html>

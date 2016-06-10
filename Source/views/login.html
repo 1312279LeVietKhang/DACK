@@ -1,0 +1,28 @@
+<section class="card login">
+  <form class="form-signin" name="myform"
+  ng-submit="login()"
+    novalidate>
+
+<!--login modal-->
+    <!--<h2 class="form-signin-heading">Please sign in</h2>-->
+      <h2><legend>LOG-IN HERE</legend> </h2>
+    <p class="message" ng-show="message">{{ message }}</p>
+    
+    <label for="inputEmail" class="sr-only">Email address</label>
+    <input class="form-control input-lg" type="email" name="email" placeholder="Email" ng-model="user.email" ng-required="true">
+    <p class="errorvalidation" ng-show="myform.email.$invalid && myform.email.$touched">Cần nhập địa chỉ email hợp lệ !!!</p>
+
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input class="form-control input-lg" type="password" name="password" placeholder="Password" ng-model="user.password" ng-required="true">
+    <p class="errorvalidation fade in" ng-show="myform.password.$invalid && myform.password.$touched">Cần nhập một mật khẩu đúng !!!</p>
+
+    <button type="submit" class="btn btn-lg btn-primary btn-block" ng-disabled="myform.$invalid">Login</button>
+    <span class="pull-right"><a ng-href="#/register">Register</a></span><span><a href="#">Need help?</a></span>
+
+      <button  class="btn btn-group-lg btn-primary btn-block" ng-click="fbRegister()">Login With Facebook</button>
+      <button  class="btn btn-group-lg btn-primary btn-block" ng-click="googleRegister()">Login With Google</button>
+  </form>
+
+
+</section>
+

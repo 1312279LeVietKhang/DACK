@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html ng-app="myApp">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Kiểm tra</title>
@@ -12,14 +12,44 @@ body,td,th {
 	color: #2c3e50;
 }
 </style>
-<link href="style/check.css" rel="stylesheet" type="text/css" />
+	
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+<link href="style/index.css" rel="stylesheet" type="text/css">
+  <!-- Angular -->
+  <script src="js/lib/angular/angular.min.js"></script>
+  <script src="js/lib/angular/angular-route.min.js"></script>
+  <script src="js/lib/angular/angular-animate.min.js"></script>
+
+  <!-- Firebase -->
+  <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+  <script src="https://cdn.firebase.com/libs/angularfire/1.1.4/angularfire.min.js"></script>
+
+  <script src="js/app.js"></script>
+  <script src="js/controllers/registration.js"></script>
+  <script src="js/controllers/success.js"></script>
+  <script src="js/services/authentication.js"></script>
 </head>
 <body>
-<a href="index.php"><input type="image" src="image/home.png" /></a>
-<a href="logout.php"><input type="image" src="image/log_out.png" /></a>
+<div ng-show="currentUser" ng-controller="RegistrationController">
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span> 
+      </button>
+      <a class="navbar-brand" href="#">HOT FEED</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="index.php">HOME</a></li>
+        <li><a href="logout.php" ng-click="logout()">LOGOUT</a></li>
+      </ul>
+    </div>
+</div>
+</div>
+<div class="container-fluid bg-grey">
 <h3>Kiểm tra bài viết</h3>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
 <p>&nbsp;</p>
 <?PHP
 session_start();
@@ -29,11 +59,11 @@ if(!CheckLogin())
     exit;
 }
 
-if (!empty($_SESSION['id']))
+if (!empty($_SESSION['Work']))
 {$_SESSION['mabai']="";}
 function CheckLogin()
 {     
-     if(empty($_SESSION['id']))
+     if(empty($_SESSION['work']))
      {
         return false;
      }
@@ -62,9 +92,9 @@ function CheckLogin()
 	   return $data;
 	}
 	$servername = "mysql.hostinger.vn";
-	$username = "u194549403_h2";
+	$username = "u965438197_h";
 	$password = '123456';
-	$db = "u194549403_bf";
+	$db = "u965438197_h";
 	// Create connection
 	$conn = new mysqli($servername, $username, $password,$db);
 	mysqli_query($conn,"SET character_set_results=utf8");
@@ -80,8 +110,8 @@ function CheckLogin()
     echo "Bài <b>".$data['tuade']."</b> đã được chọn thành công<br>Với độ hot: <b>".$data['dohot']."</b><p class='congra'>Mời bạn viết bài</p>";
 	date_default_timezone_set('Asia/Ho_Chi_Minh');
 	$t=time();
-	$author=$_SESSION['name'];
-	$ac=$_SESSION['id'];
+	$author="anonymous";
+	$ac="Admin";
 	$mabaicu=$data['mabai'];
 	$mabaimoi=$t.$ac;
 	$t = date ("Y-m-d H:i:s", $t);
@@ -111,9 +141,9 @@ function CheckLogin()
 	// define variables and set to empty values
 	$Err="";
 	$servername = "mysql.hostinger.vn";
-	$username = "u194549403_h2";
+	$username = "u965438197_h";
 	$password = '123456';
-	$db = "u194549403_bf";
+	$db = "u965438197_h";
 	// Create connection
 	$conn = new mysqli($servername, $username, $password,$db);
 	$sql="SELECT * FROM official_info";
@@ -129,5 +159,10 @@ function CheckLogin()
 	}
 	$conn->close();
 ?>
+</div>
+<footer class="container-fluid text-center b1 navbar-fixed-bottom">
+  <p>buzzfeedvn.esy.es © 2015</p> 
+</footer>
 </body>
+
 </html>
